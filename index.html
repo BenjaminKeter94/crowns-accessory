@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viral Finds - Image Shop Feed</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            overscroll-behavior-y: none;
+        }
+        .scroll-snap-y {
+            scroll-snap-type: y mandatory;
+        }
+        .scroll-snap-y > section {
+            scroll-snap-align: start;
+        }
+        .scroll-snap-y::-webkit-scrollbar {
+            display: none;
+        }
+        .scroll-snap-y {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-black text-white h-screen overflow-hidden">
+
+    <main id="app" class="h-full w-full max-w-md mx-auto relative scroll-snap-y overflow-y-scroll">
+
+        <div class="fixed top-0 left-0 right-0 z-50 p-2 text-center bg-yellow-400 text-gray-800 text-xs font-semibold">
+            ⚠️ Affiliate Disclosure: As an Amazon Associate, I earn from qualifying purchases.
+        </div>
+
+        <script>
+            // NOTE: The image URLs point to local files, which will ONLY work if the HTML file is opened
+            // by a browser that has file system access to those exact paths on that machine.
+            const products = [
+                {
+                    id: 1,
+                    imageUrl: "https://i.postimg.cc/jqhqP4W1/Logitech-MX-master-4.jpg",
+                    productName: "Best mouse for on the go",
+                    affiliateLink: "https://amzn.to/4rx8Lmk",
+                    caption: "This wireless mouse is perfect for working on the go! Compact, responsive, and stylish. #TechEssentials #AmazonFinds #WirelessMouse"
+                },
+                {
+                    id: 2,
+                    imageUrl: "https://i.postimg.cc/zGvfJHGP/San-Disk-Extreme-SSD.jpg",
+                    productName: "Best portable ssd",
+                    affiliateLink: "https://amzn.to/49N2ZGO",
+                    caption: "Fast, reliable, and compact! This portable SSD has been a lifesaver for my video projects. #TechGear #AmazonFinds #PortableSSD"
+                },
+                {
+                    id: 3,
+                    imageUrl: "https://i.postimg.cc/7LcJvM1M/UGREEN-Revodok-pro-210.jpg",
+                    productName: "Best hub for MacBooks",
+                    affiliateLink: "https://amzn.to/4isF7Kx",
+                    caption: "This hub is a game-changer for my MacBook setup! All the ports I need in one sleek design. #MacBook #TechAccessories #AmazonFinds",
+                }
+            ];
+
+            function initImageFeed() {
+                const feed = document.getElementById('app');
+                feed.innerHTML = '';
+                
+                products.forEach(product => {
+                    const section = document.createElement('section');
+                    section.className = 'relative w-full h-screen flex justify-center items-center bg-black'; 
+                    section.id = `image-${product.id}`;
+
+                    const image = document.createElement('img');
+                    // 🌟 CRITICAL FIX: Changed object-cover to object-contain 
+                    image.className = 'absolute inset-0 w-full h-full object-contain'; 
+                    image.src = product.imageUrl;
+                    image.alt = `Product image for ${product.productName}`;
+
+                    const bottomContent = document.createElement('div');
+                    bottomContent.className = 'absolute bottom-0 left-0 right-0 p-4 pt-16 bg-gradient-to-t from-black/80 to-transparent z-30';
+                    bottomContent.innerHTML = `
+                        <div class="mb-4">
+                            <p class="text-sm font-bold">${product.productName}</p>
+                            <p class="text-sm mt-1 leading-snug">${product.caption}</p>
+                        </div>
+                        <a href="${product.affiliateLink}" target="_blank" class="block w-full text-center py-3 bg-red-600 hover:bg-red-700 active:bg-red-800 text-white font-extrabold rounded-lg shadow-xl uppercase transition duration-150 transform hover:scale-[1.02] focus:outline-none focus:ring-4 focus:ring-red-500 focus:ring-opacity-50">
+                            🛒 Shop Now on Amazon
+                        </a>
+                    `;
+
+                    section.appendChild(image);
+                    section.appendChild(bottomContent);
+
+                    feed.appendChild(section);
+                });
+
+                lucide.createIcons();
+            }
+            
+            window.onload = initImageFeed;
+
+        </script>
+    </main>
+    
+</body>
+</html>
